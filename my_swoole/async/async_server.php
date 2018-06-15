@@ -5,9 +5,15 @@
  * Date: 2018/6/8
  * Time: 10:41
  */
-require_once 'Mail.php';
+require_once 'spl_autoload_register.php';
 
 $http_server = new swoole_http_server('0.0.0.0', 9401); // todo 0.0.0.0
+
+//$http_server = new swoole_http_server("0.0.0.0", 9401 , SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL );
+//$server->set(array(
+//    'ssl_cert_file' => '/path/to/server.crt',
+//    'ssl_key_file' => '/path/to/server.key',
+//));
 
 // redis存储任务处理结果和进度
 $redis = new Redis();
@@ -36,7 +42,7 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
         $response->end("task: $task_id; status: $status"); // todo return
     }
 
-    $param = $request->get; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
+    $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
     $task_id = $http_server->task($param);
     $response->end("
     <h1>do task:$task_id.</h1>
@@ -48,25 +54,24 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     // 任务处理, 可以把处理结果和状态在redis里面实时更新, 便于获取任务状态
     for ($i = 1; $i <= 3; ++$i) {
         $redis->set($key_prefix . $task_id, $i);
-        sleep(1);
+//        sleep(1);
     }
 
-    $port = 25; // SMTP服务器端口
-    $user = 'phphack@163.com'; // 发件人邮箱
-    $pass = 'han888'; // 发件人邮箱密码
-    $host = 'smtp.163.com'; // SMTP服务器
-    $from = 'phphack@163.com';
-    $to = '18301805881@163.com';
-    $body = 'hello world';
-    $subject = '我是标题';
+//    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
 
-    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
+    if (!isset($data['class_name']) || !isset($data['func_name']) || !isset($data['param'])) {
+        // todo error
+        echo __METHOD__ . " invalid param\n";
+        return false;
+    }
 
-    $class = new $data['class_name']($host, $port, $user, $pass, true);
+    $data['param'] = json_decode($data['param'], true);
+
+    $class = new $data['class_name']();
     $func_name = $data['func_name'];
-    $class->$func_name($from, $to, $subject, $body);
+    $class->$func_name($data['param']);
 
-    return $i; // 必须有return, 否则不会调用onFinish
+    return "$task_id task begin"; // 必须有return, 否则不会调用onFinish
 });
 
 // 任务结束之后处理任务或者回调
