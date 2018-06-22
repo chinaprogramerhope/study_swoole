@@ -19,7 +19,7 @@ class Mail2 {
         $reply = isset($param['reply']) ? $param['reply'] : null;
 
 //        $csmtp = new Mail_Csmtp(APF::get_instance()->get_config('smtp_server'), 587);
-        $csmtp = new Mail_Csmtp(Config::SMTP_SERVER, 587);
+        $csmtp = new Mail_Csmtp(Config::MAIL_SMTP_SERVER, 587);
 
         $start_tls_ret = $csmtp->start_tls();
         if ($start_tls_ret === false) {
@@ -28,7 +28,7 @@ class Mail2 {
         }
 
 //        $login_ret = $csmtp->login(APF::get_instance()->get_config('smtp_user'), APF::get_instance()->get_config('smtp_pass'));
-        $login_ret = $csmtp->login(Config::SMTP_USER, Config::SMTP_PASS);
+        $login_ret = $csmtp->login(Config::MAIL_SMTP_USER, Config::MAIL_SMTP_PASS);
         if ($login_ret !== true) {
 //            Logger::info(__METHOD__ . ' login fail');
             return false;
@@ -264,7 +264,9 @@ class Mail_Csmtp {
             return false;
         }
 
+        stream_context_set_option($this->smtp, 'ssl', 'sslVersion ', 'all');
         $cry_ret = stream_socket_enable_crypto($this->smtp, true, STREAM_CRYPTO_METHOD_SSLv23_CLIENT);
+
         if ($cry_ret === false) { //todo 0
             return false;
         }

@@ -23,6 +23,7 @@ $key_prefix = 'swoole_';
 $http_server->set([ // todo
     'worker_num' => 4,
     'open_tcp_nodelay' => true,
+
     'task_worker_num' => 4,
 
     'daemonize' => false,
@@ -44,17 +45,19 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
 
     $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
     $task_id = $http_server->task($param);
-    $response->end("
-    <h1>do task:$task_id.</h1>
-    ");
+    $response->end("<h1>do task:$task_id.</h1>");
 });
 
 // 处理异步任务
 $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($redis, $key_prefix) {
+//    int swoole_timer_tick(int $ms, callable $callback, mixed $user_param);
+//    int swoole_timer_after(int $after_time_ms, mixed $callback_function, mixed $user_param);
+//    bool swoole_timer_clear(int $timer_id)
+
     // 任务处理, 可以把处理结果和状态在redis里面实时更新, 便于获取任务状态
     for ($i = 1; $i <= 3; ++$i) {
         $redis->set($key_prefix . $task_id, $i);
-//        sleep(1);
+//        sleep(2);
     }
 
 //    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
@@ -71,7 +74,7 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     $func_name = $data['func_name'];
     $class->$func_name($data['param']);
 
-    return "$task_id task begin"; // 必须有return, 否则不会调用onFinish
+    return true; // 必须有return, 否则不会调用onFinish
 });
 
 // 任务结束之后处理任务或者回调

@@ -33,7 +33,35 @@ class Mail {
     private $debug = false;
     private $sock;
 
-    public function __construct($host, $port, $user, $pass, $debug = false) {
+    public function __construct() {
+
+    }
+
+    // 发送SMTP指令，不同指令的返回码可能不同
+    public function execCommand($cmd, $return_code) {
+        fwrite($this->sock, $cmd);
+
+        $response = fgets($this->sock);
+        // 输出调试信息
+        $this->debug('cmd:' . $cmd . ';response:' . $response);
+        if (strstr($response, $return_code) === false) {
+            return false;
+        }
+        return true;
+    }
+
+    public function sendMail($param) {
+        $debug = false;
+
+        $port = $param['port'];
+        $user = $param['user'];
+        $pass = $param['pass'];
+        $host = $param['host'];
+        $from = $param['from'];
+        $to = $param['to'];
+        $body = $param['body'];
+        $subject = $param['subject'];
+
         $this->host = $host;
         $this->port = $port;
         $this->user = base64_encode($user); // 用户名密码一定要使用base64编码才行
@@ -51,22 +79,7 @@ class Mail {
         if (strstr($response, '220') === false) {
             exit('出错啦');
         }
-    }
 
-    // 发送SMTP指令，不同指令的返回码可能不同
-    public function execCommand($cmd, $return_code) {
-        fwrite($this->sock, $cmd);
-
-        $response = fgets($this->sock);
-        // 输出调试信息
-        $this->debug('cmd:' . $cmd . ';response:' . $response);
-        if (strstr($response, $return_code) === false) {
-            return false;
-        }
-        return true;
-    }
-
-    public function sendMail($from, $to, $subject, $body) {
         // detail是邮件的内容，一定要严格按照下面的格式，这是协议规定的
         $detail = 'From:' . $from . "\r\n";
         $detail .= 'To:' . $to . "\r\n";
