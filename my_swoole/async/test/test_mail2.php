@@ -1,5 +1,5 @@
 <?php
-require_once 'spl_autoload_register.php';
+require_once '../spl_autoload_register.php';
 
 $url = 'http://127.0.0.1:9401';
 $param = [

@@ -60,7 +60,8 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
 //        sleep(2);
     }
 
-//    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
+    // test
+    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
 
     if (!isset($data['class_name']) || !isset($data['func_name']) || !isset($data['param'])) {
         // todo error
@@ -68,13 +69,12 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
         return false;
     }
 
-    $data['param'] = json_decode($data['param'], true);
+    // test
+    echo 'type_param = ' . gettype($data['param']) . ', content = ' . $data['param'];
 
     $class = new $data['class_name']();
     $func_name = $data['func_name'];
-    $class->$func_name($data['param']);
-
-    return true; // 必须有return, 否则不会调用onFinish
+    return $class->$func_name($data['param']); // 必须有return, 否则不会调用onFinish
 });
 
 // 任务结束之后处理任务或者回调

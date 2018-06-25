@@ -22,7 +22,7 @@
  * $mail->setMail("test", "<b>test</b>"); //设置邮件主题、内容
  * $mail->sendMail(); //发送
  */
-require_once 'spl_autoload_register.php';
+require_once '../spl_autoload_register.php';
 
 $mail = new MySendMail();
 $mail->setServer(Config::MAIL_SMTP_SERVER, Config::MAIL_SMTP_USER, Config::MAIL_SMTP_PASS, 587, true);

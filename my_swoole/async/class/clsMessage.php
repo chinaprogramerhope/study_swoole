@@ -25,31 +25,36 @@ class clsMessage {
             return false;
         }
 
-        // 验证发送验证码间隔时间
-        $last_send_ic_ts = $this->get_sms_captcha_log_ts($phone_number, $time_now); // 获取最后一次给该手机号发送验证码的时间
-        if ($last_send_ic_ts) {
-            $over_time = $time_now - $last_send_ic_ts;
-            if ($over_time < Config::SMS_SEND_IC_INTERVAL) {
-                Log::error(__METHOD__ . ' over_time limit, left_ts = ' . (Config::SMS_SEND_IC_INTERVAL - $over_time));
-                return false;
-            }
-        }
+        // test
+//        // 验证发送验证码间隔时间
+//        $last_send_ic_ts = $this->get_sms_captcha_log_ts($phone_number, $time_now); // 获取最后一次给该手机号发送验证码的时间
+//        if ($last_send_ic_ts) {
+//            $over_time = $time_now - $last_send_ic_ts;
+//            if ($over_time < Config::SMS_SEND_IC_INTERVAL) {
+//                Log::error(__METHOD__ . ' over_time limit, left_ts = ' . (Config::SMS_SEND_IC_INTERVAL - $over_time));
+//                return false;
+//            }
+//        }
+//
+//        // 保存发送验证码的记录
+//        $captcha = $this->save_sms_captcha_log($phone_number, $time_now);
+//        if (!$captcha) {
+//            Log::error(__METHOD__ . ' save_sms_captcha_log fail, phone_number = ' . $phone_number);
+//            return false;
+//        }
+//
+//        // 保存 注册/登录 的手机验证码
+//        $ret_save_sms_captcha = $this->save_sms_captcha($u_kkid, $phone_number, $captcha, $time_now);
+//        if (!$ret_save_sms_captcha) { // 之前的逻辑中这里错了不会中断, 所以这里也只是打印日志
+//            Log::error(__METHOD__ . ' save_sms_captcha fail, phone_number = ' . $phone_number);
+//        }
 
-        // 保存发送验证码的记录
-        $captcha = $this->save_sms_captcha_log($phone_number, $time_now);
-        if (!$captcha) {
-            Log::error(__METHOD__ . ' save_sms_captcha_log fail, phone_number = ' . $phone_number);
-            return false;
-        }
-
-        // 保存 注册/登录 的手机验证码
-        $ret_save_sms_captcha = $this->save_sms_captcha($u_kkid, $phone_number, $captcha, $time_now);
-        if (!$ret_save_sms_captcha) { // 之前的逻辑中这里错了不会中断, 所以这里也只是打印日志
-            Log::error(__METHOD__ . ' save_sms_captcha fail, phone_number = ' . $phone_number);
-        }
+        // test
+        $captcha = 1111;
 
         // 发送模板短信
         $ret_json = $this->send_sms($phone_number, $captcha);
+
         if ($ret_json === false) {
             Log::error(__METHOD__ . ' sms_tpl_send fail, phone_number = ' . $phone_number . ', captcha = ' . $captcha);
             return false;

@@ -7,6 +7,9 @@
  */
 
 class svcMessage {
+    public function __construct() {
+    }
+
     /**
      * 发送手机验证码
      * @param $param
