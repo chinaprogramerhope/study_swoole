@@ -70,7 +70,7 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     }
 
     // test
-    echo 'type_param = ' . gettype($data['param']) . ', content = ' . $data['param'];
+//    echo 'type_param = ' . gettype($data['param']) . ', content = ' . json_encode($data['param']);
 
     $class = new $data['class_name']();
     $func_name = $data['func_name'];
