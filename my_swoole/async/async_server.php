@@ -45,7 +45,26 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
 
     $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
     $task_id = $http_server->task($param);
-    $response->end("<h1>do task:$task_id.</h1>");
+
+    // todo 错误和成功的返回在各个接口中返回; 并在这里得到各个接口的返回值并返回
+    $error_ret_server = [
+        "status" => 500,
+        "data" => [],
+        "msg" => ""
+    ];
+    $error_ret_client = [
+        "status" => 400,
+        "data" => [],
+        "msg" => ""
+    ];
+    $success_ret = [
+        "status" => 200,
+        "data" => [],
+        "msg" => ""
+    ];
+    $success_ret['data']['task_id'] = $task_id;
+//    $response->end("<h1>do task:$task_id.</h1>");
+    $response->end(json_encode($success_ret));
 });
 
 // 处理异步任务

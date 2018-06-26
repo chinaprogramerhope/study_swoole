@@ -12,6 +12,7 @@ class clsMessage {
 
     /**
      * 发送手机验证码
+     * todo 验证$u_kkid是否必要
      * @param $u_kkid
      * @param $phone_number
      * @return bool
