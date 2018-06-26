@@ -10,7 +10,7 @@ $param = [
 
 $params = [
 'class_name' => 'svcMail',
-'func_name' => 'send_verify_mail',
+'func_name' => 'send_mail',
 'param' => $param,
 ];
 

@@ -15,7 +15,7 @@ class svcMail {
      * @param $param
      * @return bool
      */
-    public function send_verify_mail($param) {
-        return clsMail::send_verify_mail($param);
+    public function send_mail($param) {
+        return clsMail::send_mail($param);
     }
 }

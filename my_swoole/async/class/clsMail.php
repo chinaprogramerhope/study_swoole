@@ -6,7 +6,7 @@
  * Time: 10:25
  */
 class clsMail {
-    public static function send_verify_mail($param) {
+    public static function send_mail($param) {
         // 参数检查  $to, $subject, $body, $cc = null, $reply = null
         if (!isset($param['to']) || !isset($param['subject']) || !isset($param['body'])) {
             // todo error
