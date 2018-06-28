@@ -19,7 +19,7 @@ class clsPush {
      */
     public static function mp_tmp($touser, $template_id, $from_id, $data,
                                             $page = null, $emphasis_keyword = null) {
-        $access_token = WeChat::get_access_token(); // todo
+        $access_token = WeChat::get_access_token();
 
         $param = [
             'touser' => $touser,
@@ -38,7 +38,7 @@ class clsPush {
         $url = MP_TMP_PUSH_URL . $access_token;
         $param = json_encode($param);
 
-        $ret_json = Http::curl_post($url, $param, 0, 1); //请求地址，数据，非加密算法，json格式发送 todo
+        $ret_json = Http::curl_post($url, $param); //请求地址，数据，非加密算法，json格式发送
         return $ret_json;
     }
 }

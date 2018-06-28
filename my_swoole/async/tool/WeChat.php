@@ -20,7 +20,7 @@ class WeChat {
             return $access_token;
         }
 
-        $data = Util_Curl::http_post(MP_GET_ACCESS_TOKEN_URL, [], 0); // todo
+        $data = Http::curl_post(MP_GET_ACCESS_TOKEN_URL, []);
 
         $redis->set($key_access_token, $data['access_token'], 3600); // 原逻辑中是3600
         return $data['access_token'];

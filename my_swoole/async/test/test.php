@@ -34,16 +34,26 @@ require_once '../spl_autoload_register.php';
 //];
 //Http::curl_post($url, $params);
 
-// 发小程序推送消息
+//// 发小程序推送消息
+//$url = 'http://127.0.0.1:9401';
+//$params = [
+//    'class_name' => 'svcPush',
+//    'func_name' => 'mp_tmp',
+//    'param' => [
+//        'touser' => , // 接收者（用户）的 openid - 必填
+//        'template_id' => , // 所需下发的模板消息的id - 必填
+//        'from_id' => , // 表单提交场景下，为 submit 事件带上的 formId；支付场景下，为本次支付的 prepay_id - 必填
+//        'data' => , // 模板内容，不填则下发空模板 - 必填
+//    ],
+//];
+//Http::curl_post($url, $params);
+
+// 测试post  json
 $url = 'http://127.0.0.1:9401';
 $params = [
-    'class_name' => 'svcPush',
-    'func_name' => 'mp_tmp',
-    'param' => [
-        'touser' => , // 接收者（用户）的 openid - 必填
-        'template_id' => , // 所需下发的模板消息的id - 必填
-        'from_id' => , // 表单提交场景下，为 submit 事件带上的 formId；支付场景下，为本次支付的 prepay_id - 必填
-        'data' => , // 模板内容，不填则下发空模板 - 必填
-    ],
+    'class_name' => 'svcTest',
+    'func_name' => 'post',
+    'param' => []
 ];
-Http::curl_post($url, $params);
+$ret = Http::curl_post($url, $params, true);
+echo 'type = ' . gettype($ret);
