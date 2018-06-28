@@ -1,7 +1,11 @@
 <?php
 class Http {
-    public static function curl_post($url, $param) {
+    public static function curl_post($url, $param, $json = false) {
         $ch = curl_init(); // 初始化
+
+        if ($json) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json; charset=utf-8')); // todo
+        }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept:text/plain;charset=utf-8', 'Content-Type:application/x-www-form-urlencoded','charset=utf-8')); // 设置验证方式
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // 设置获取的信息以文件流的形式返回，而不是直接输出。

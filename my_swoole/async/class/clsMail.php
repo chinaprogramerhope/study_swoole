@@ -19,7 +19,7 @@ class clsMail {
         $reply = isset($param['reply']) ? $param['reply'] : null;
 
 //        $csmtp = new Mail_Csmtp(APF::get_instance()->get_config('smtp_server'), 587);
-        $csmtp = new Mail_Csmtp(Config::MAIL_SMTP_SERVER, 587);
+        $csmtp = new Mail_Csmtp(MAIL_SMTP_SERVER, 587);
 
         $start_tls_ret = $csmtp->start_tls();
         if ($start_tls_ret === false) {
@@ -28,7 +28,7 @@ class clsMail {
         }
 
 //        $login_ret = $csmtp->login(APF::get_instance()->get_config('smtp_user'), APF::get_instance()->get_config('smtp_pass'));
-        $login_ret = $csmtp->login(Config::MAIL_SMTP_USER, Config::MAIL_SMTP_PASS);
+        $login_ret = $csmtp->login(MAIL_SMTP_USER, MAIL_SMTP_PASS);
         if ($login_ret !== true) {
 //            Logger::info(__METHOD__ . ' login fail');
             return false;

@@ -30,8 +30,8 @@ class clsMessage {
         $last_send_ic_ts = $this->get_sms_captcha_log_ts($phone_number, $time_now); // 获取最后一次给该手机号发送验证码的时间
         if ($last_send_ic_ts) {
             $over_time = $time_now - $last_send_ic_ts;
-            if ($over_time < Config::SMS_SEND_IC_INTERVAL) {
-                Log::error(__METHOD__ . ' over_time limit, left_ts = ' . (Config::SMS_SEND_IC_INTERVAL - $over_time));
+            if ($over_time < SMS_SEND_IC_INTERVAL) {
+                Log::error(__METHOD__ . ' over_time limit, left_ts = ' . (SMS_SEND_IC_INTERVAL - $over_time));
                 return false;
             }
         }
@@ -76,13 +76,13 @@ class clsMessage {
      */
     private function send_sms($phone_number, $content) {
         $param = [
-            'tpl_id' => Config::SMS_PROVIDER_ID,
+            'tpl_id' => SMS_PROVIDER_ID,
             'tpl_value' => ('#code#') . '=' . urlencode($content), // 需要对value进行编码
-            'apikey' => Config::SMS_PROVIDER_CAPTCHA_APIKEY,
+            'apikey' => SMS_PROVIDER_CAPTCHA_APIKEY,
             'mobile' => $phone_number,
         ];
 
-        $json_data = Http::curl_post(Config::SMS_PROVIDER_URL, $param);
+        $json_data = Http::curl_post(SMS_PROVIDER_URL, $param);
 
         return $json_data;
     }
@@ -132,7 +132,7 @@ class clsMessage {
         $pdo_usercenter = Db::get_pdo('usercenter');
 
         $code = intval(substr(str_pad(base_convert(sha1(uniqid(rand().$phone_number)),36,10), 6 , 0, STR_PAD_LEFT), 0, 6));
-        $expire = Config::SMS_IC_EXPIRED;
+        $expire = SMS_IC_EXPIRED;
 
         $param = [
             ':id' => 0,

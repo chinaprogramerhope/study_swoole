@@ -13,12 +13,12 @@ class Db {
      * @return bool|PDO
      */
     public static function get_pdo($config_name) {
-        if (!isset(Config::DB_CONFIG[$config_name])) {
+        if (!array_key_exists($config_name, DB_CONFIG)) {
             Log::error(__METHOD__ . ' invalid config_name, config_name = ' . $config_name);
             return false;
         }
 
-        $config = Config::DB_CONFIG[$config_name];
+        $config = DB_CONFIG[$config_name];
 
         try {
             $pdo = new PDO($config['dsn'], $config['username'], $config['password']);
