@@ -64,7 +64,8 @@ $params = [
     'class_name' => 'svcTimer',
     'func_name' => 'timer_after',
     'param' => [
-        'timer_name' => 'test'
+        'timer_name' => 'test',
+        'timer_after' => 2000,
     ]
 ];
 $ret = Http::curl_post($url, $params);
