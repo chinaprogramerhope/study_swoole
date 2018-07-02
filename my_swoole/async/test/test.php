@@ -65,7 +65,7 @@ $params = [
     'func_name' => 'timer_after',
     'param' => [
         'timer_name' => 'test',
-        'timer_after' => 2000,
+        'after_time_ms' => 2000,
     ]
 ];
 $ret = Http::curl_post($url, $params);
