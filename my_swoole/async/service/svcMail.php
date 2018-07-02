@@ -4,6 +4,8 @@
  * User: hanxiaolong
  * Date: 2018/6/15
  * Time: 15:11
+ *
+ * 邮件
  */
 
 class svcMail {
