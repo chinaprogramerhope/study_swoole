@@ -6,6 +6,8 @@
  * Time: 10:41
  */
 require_once 'spl_autoload_register.php';
+require_once 'config/config.php';
+require_once 'config/error_code.php';
 
 $http_server = new swoole_http_server('0.0.0.0', 9401); // todo 0.0.0.0
 
