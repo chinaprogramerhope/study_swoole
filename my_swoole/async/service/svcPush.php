@@ -23,8 +23,19 @@ class svcPush {
             'data',
         ];
 
-        if (check_param_set($need_param)) {
-
+        if (!Tool::check_param_exists($need_param, $param)) {
+            Log::error(__METHOD__ . ' invalid param, param = ' . json_encode($param) . ', need_param = ' . json_encode($need_param));
+            return ERROR_INVALID_PARAM;
         }
+
+        $touser = $param['touser'];
+        $template_id = $param['template_id'];
+        $from_id = $param['from_id'];
+        $data = $param['data'];
+
+        $page = isset($param['page']) ? $param['page'] : null;
+        $emphasis_keyword = isset($param['emphasis_keyword']) ? $param['emphasis_keyword'] : null;
+
+        clsPush::mp_tmp();
     }
 }
