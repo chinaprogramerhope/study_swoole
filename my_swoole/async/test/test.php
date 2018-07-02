@@ -62,7 +62,7 @@ require_once '../spl_autoload_register.php';
 $url = 'http://127.0.0.1:9401';
 $params = [
     'class_name' => 'svcTimer',
-    'func_name' => 'test',
+    'func_name' => 'timer_after',
     'param' => [
         'timer_name' => 'test'
     ]

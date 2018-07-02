@@ -9,7 +9,7 @@
  */
 
 class clsTimer {
-    public static function timer_after($after_time_ms, $timer_name) {
+    public static function timer_after($timer_name, $after_time_ms) {
         $max_after_time_ms = 86400000;
         $current_after_time_ms = 0;
         $left_after_time_ms = 0;
