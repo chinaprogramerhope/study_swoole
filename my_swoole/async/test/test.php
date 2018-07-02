@@ -48,12 +48,24 @@ require_once '../spl_autoload_register.php';
 //];
 //Http::curl_post($url, $params);
 
-// 测试post  json
+//// 测试post  json
+//$url = 'http://127.0.0.1:9401';
+//$params = [
+//    'class_name' => 'svcTest',
+//    'func_name' => 'post',
+//    'param' => []
+//];
+//$ret = Http::curl_post($url, $params, true);
+//echo 'type = ' . gettype($ret);
+
+
 $url = 'http://127.0.0.1:9401';
 $params = [
-    'class_name' => 'svcTest',
-    'func_name' => 'post',
-    'param' => []
+    'class_name' => 'svcTimer',
+    'func_name' => 'test',
+    'param' => [
+        'timer_name' => 'test'
+    ]
 ];
-$ret = Http::curl_post($url, $params, true);
-echo 'type = ' . gettype($ret);
+$ret = Http::curl_post($url, $params);
+echo 'type = ' . gettype($ret) . ', ret = ' . json_encode($ret) . "\n";
