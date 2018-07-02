@@ -23,7 +23,7 @@ class clsTimer {
 
         swoole_timer_after($current_after_time_ms, function () use ($left_after_time_ms, $timer_name) {
             if ($left_after_time_ms > 0) { // 剩余时间还未耗完
-                self::timer_after($left_after_time_ms, '');
+                self::timer_after('', $left_after_time_ms);
             } else { // 满足条件, 跳出递归, 执行相关逻辑
                 self::$timer_name();
             }
