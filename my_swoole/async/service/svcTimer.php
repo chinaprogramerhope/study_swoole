@@ -26,7 +26,7 @@ class svcTimer {
             return ERROR_INVALID_PARAM;
         }
 
-        clsTimer::timer_after($after_time_ms, $timer_name);
+        clsTimer::timer_after($timer_name, $after_time_ms);
 
         return ERROR_OK;
     }
