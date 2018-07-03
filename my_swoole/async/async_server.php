@@ -53,17 +53,17 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
 
     $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
 
-    Log::info(__METHOD__ . ', ' . __LINE__ . ', param_type = ' . gettype($param) . ', data_content = ' . json_encode($param));
+    Log::info('on_request, ' . __LINE__ . ', param_type = ' . gettype($param) . ', data_content = ' . json_encode($param));
 
     // 参数检查
     if (!isset($param['class_name']) || !isset($param['func_name'])) {
-        Log::error(__METHOD__ . ' : ' . __LINE__ . ' invalid param, param = ' . json_encode($param));
+        Log::error('on_request, ' . __LINE__ . ' invalid param, param = ' . json_encode($param));
         $error_ret_client['msg'] = ' invalid param';
         $response->end(json_encode($error_ret_client));
     }
     $param['func_param'] = isset($param['func_param']) ? $param['func_param'] : [];
     if (!is_array($param['func_param'])) {
-        Log::error(__METHOD__ . ', ' . __LINE__ . ', invalid param, func_param is not array, func_param_type = '
+        Log::error('on_request, ' . __LINE__ . ', invalid param, func_param is not array, func_param_type = '
             . gettype($param['func_param']));
         $error_ret_client['msg'] = ' invalid param';
         $response->end(json_encode($error_ret_client));
@@ -72,7 +72,7 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
     $task_id = $http_server->task($param);
 
     if ($task_id === false) {
-        Log::error(__METHOD__ . ', ' . __LINE__ . ', task fail');
+        Log::error('on_request, ' . __LINE__ . ', task fail');
         $error_ret_server['msg'] = ' task fail in request';
         $response->end(json_encode($success_ret));
     }
@@ -89,7 +89,7 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     $func_name = $data['func_name'];
     $error_code = $class->$func_name($data['func_param']); // 必须有return, 否则不会调用onFinish
     if ($error_code !== ERROR_OK) {
-        Log::error(__METHOD__ . ', ' . __LINE__ . ' task fail in task');
+        Log::error('on_task, ' . __LINE__ . ' task fail in task');
 
         $task_status = 'fail';
     }
