@@ -2,10 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: hanxiaolong
- * Date: 2018/6/11
- * Time: 10:30
+ * Date: 2018/7/3
+ * Time: 11:11
  */
-
 // 邮件
 const MAIL_SMTP_SERVER = 'smtp.exmail.qq.com';
 const MAIL_SMTP_USER = 'noreply@kangkanghui.com';
