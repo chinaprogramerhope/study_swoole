@@ -34,7 +34,7 @@ require_once '../spl_autoload_register.php';
 //];
 //Http::curl_post($url, $params);
 
-//// 发小程序推送消息
+//// 发小程序推送消息 todo
 //$url = 'http://127.0.0.1:9401';
 //$params = [
 //    'class_name' => 'svcPush',
@@ -48,7 +48,7 @@ require_once '../spl_autoload_register.php';
 //];
 //Http::curl_post($url, $params);
 
-//// 测试post  json
+//// 测试post  json todo
 //$url = 'http://127.0.0.1:9401';
 //$params = [
 //    'class_name' => 'svcTest',
@@ -59,13 +59,25 @@ require_once '../spl_autoload_register.php';
 //echo 'type = ' . gettype($ret);
 
 
+//// 测试无限制定时器
+//$url = 'http://127.0.0.1:9401';
+//$params = [
+//    'class_name' => 'svcTimer',
+//    'func_name' => 'timer_after',
+//    'param' => [
+//        'timer_name' => 'test',
+//        'after_time_ms' => 2000,
+//    ]
+//];
+//$ret = Http::curl_post($url, $params);
+//echo 'type = ' . gettype($ret) . ', ret = ' . json_encode($ret) . "\n";
+
+// 测试日志
 $url = 'http://127.0.0.1:9401';
 $params = [
-    'class_name' => 'svcTimer',
-    'func_name' => 'timer_after',
+    'class_name' => 'svcTest',
+    'func_name' => 'log',
     'param' => [
-        'timer_name' => 'test',
-        'after_time_ms' => 2000,
     ]
 ];
 $ret = Http::curl_post($url, $params);

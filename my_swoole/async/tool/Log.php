@@ -34,6 +34,10 @@ class Log {
 
     public static function write_file($level, $content) {
         $log_dir = '/var/log/swoole/';
+        if (!file_exists($log_dir)) {
+            mkdir($log_dir);
+        }
+
         $today = date('Y-m-d');
         $time_now = date('Y-m-d H:i:s');
 
