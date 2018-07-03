@@ -84,7 +84,7 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     // test
 //    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
 
-    if (!isset($data['class_name']) || !isset($data['func_name']) || !isset($data['param'])) {
+    if (!isset($data['class_name']) || !isset($data['func_name'])) {
         // todo error
         echo __METHOD__ . " invalid param\n";
         return false;
@@ -95,7 +95,8 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
 
     $class = new $data['class_name']();
     $func_name = $data['func_name'];
-    return $class->$func_name($data['param']); // 必须有return, 否则不会调用onFinish
+    $param = isset($data['param']) ? $data['param'] : [];
+    return $class->$func_name($param); // 必须有return, 否则不会调用onFinish
 });
 
 // 任务结束之后处理任务或者回调
