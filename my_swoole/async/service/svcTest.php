@@ -20,7 +20,7 @@ class svcTest {
     }
 
     public function log() {
-        Log::info(__METHOD__ . ' 你好  aaa  ***  似的发射点发生');
+        Log::info(__METHOD__ . ', 你好  aaa  ***  似的发射点发生');
         return ERROR_OK;
     }
 }

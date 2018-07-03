@@ -53,7 +53,7 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
 
     $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
 
-    Log::info('on_request, ' . __LINE__ . ', param_type = ' . gettype($param) . ', data_content = ' . json_encode($param));
+    Log::info('on_request, ' . __LINE__ . ', param_type = ' . gettype($param) . ', param = ' . json_encode($param));
 
     // 参数检查
     if (!isset($param['class_name']) || !isset($param['func_name'])) {
