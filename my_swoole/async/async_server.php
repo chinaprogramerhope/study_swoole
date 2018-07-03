@@ -92,7 +92,8 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     $func_name = $data['func_name'];
     $error_code = $class->$func_name($data['func_param']); // 必须有return, 否则不会调用onFinish
     if ($error_code !== ERROR_OK) {
-        Log::error('on_task, ' . __LINE__ . ' task fail in task');
+        Log::error('on_task, ' . __LINE__ . ' task fail in task, error_code = ' . $error_code
+            . ', error_msg = ' . ERROR_MSG[$error_code]);
 
         $task_status = 'fail';
     }

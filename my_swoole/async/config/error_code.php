@@ -8,3 +8,8 @@
 
 const ERROR_OK = 0;
 const ERROR_INVALID_PARAM = 1;
+
+
+const ERROR_MSG = [
+    ERROR_INVALID_PARAM => 'invalid param',
+];
