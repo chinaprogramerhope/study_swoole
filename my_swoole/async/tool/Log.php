@@ -33,7 +33,7 @@ class Log {
     }
 
     public static function write_file($level, $content) {
-        $log_dir = '/var/log/swoole/';
+        $log_dir = '/home/hxl/swoole_log/';
         if (!file_exists($log_dir)) {
             mkdir($log_dir);
         }
