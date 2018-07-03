@@ -44,22 +44,23 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
         "msg" => ""
     ];
 
-    $task_id = isset($request->get['taskId']) ? $request->get['taskId'] : '';
-    if ($task_id != '') { // 返回任务状态
+    $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
+    Log::info('on_request, ' . __LINE__ . ', param_type = ' . gettype($param) . ', param = ' . json_encode($param));
+
+    $task_id = isset($param['task_id']) ? $param['task_id'] : '';
+    if ($task_id != '') { // 返回任务状态 todo 重新设计这个功能
         $task_status = $redis->get($key_prefix . $task_id);
         $success_ret['task_status'] = $task_status;
         $response->end(json_encode($success_ret));
+        return;
     }
-
-    $param = $request->post; // 此处处理request请求数据作为任务执行的数据, 根据需要修改
-
-    Log::info('on_request, ' . __LINE__ . ', param_type = ' . gettype($param) . ', param = ' . json_encode($param));
 
     // 参数检查
     if (!isset($param['class_name']) || !isset($param['func_name'])) {
         Log::error('on_request, ' . __LINE__ . ' invalid param, param = ' . json_encode($param));
         $error_ret_client['msg'] = ' invalid param';
         $response->end(json_encode($error_ret_client));
+        return; // 实测response->end()之后还是会继续向下执行on_task, on_finish等等; 如果希望结束请求, 用return
     }
     $param['func_param'] = isset($param['func_param']) ? $param['func_param'] : [];
     if (!is_array($param['func_param'])) {
@@ -67,6 +68,7 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
             . gettype($param['func_param']));
         $error_ret_client['msg'] = ' invalid param';
         $response->end(json_encode($error_ret_client));
+        return;
     }
 
     $task_id = $http_server->task($param);
@@ -75,6 +77,7 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
         Log::error('on_request, ' . __LINE__ . ', task fail');
         $error_ret_server['msg'] = ' task fail in request';
         $response->end(json_encode($success_ret));
+        return;
     }
 
     $success_ret['data']['task_id'] = $task_id;
