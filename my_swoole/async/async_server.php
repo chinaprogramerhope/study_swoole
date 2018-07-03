@@ -11,24 +11,18 @@ require_once 'config/error_code.php';
 
 $http_server = new swoole_http_server('0.0.0.0', 9401); // todo 0.0.0.0
 
-//$http_server = new swoole_http_server("0.0.0.0", 9401 , SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL );
-//$server->set(array(
-//    'ssl_cert_file' => '/path/to/server.crt',
-//    'ssl_key_file' => '/path/to/server.key',
-//));
-
 // redis存储任务处理结果和进度
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
 $key_prefix = 'swoole_';
 
-$http_server->set([ // todo
+$http_server->set([
     'worker_num' => 4,
     'open_tcp_nodelay' => true,
 
     'task_worker_num' => 4,
 
-    'daemonize' => false,
+    'daemonize' => false, // todo
     'log_file' => '/tmp/swoole_http_server.log',
 ]);
 
@@ -65,37 +59,32 @@ $http_server->on('request', function (swoole_http_request $request, swoole_http_
         "msg" => ""
     ];
     $success_ret['data']['task_id'] = $task_id;
-//    $response->end("<h1>do task:$task_id.</h1>");
     $response->end(json_encode($success_ret));
 });
 
 // 处理异步任务
 $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($redis, $key_prefix) {
-//    int swoole_timer_tick(int $ms, callable $callback, mixed $user_param);
-//    int swoole_timer_after(int $after_time_ms, mixed $callback_function, mixed $user_param);
-//    bool swoole_timer_clear(int $timer_id)
-
     // 任务处理, 可以把处理结果和状态在redis里面实时更新, 便于获取任务状态
     for ($i = 1; $i <= 3; ++$i) {
         $redis->set($key_prefix . $task_id, $i);
 //        sleep(2);
     }
 
-    // test
-    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
+    Log::info(__METHOD__ . ' : ' . __LINE__ . ' data_type = ' . gettype($data) . ', data_content = ' . json_encode($data));
 
     if (!isset($data['class_name']) || !isset($data['func_name'])) {
-        // todo error
-        echo __METHOD__ . " invalid param\n";
-        return false;
+        Log::error(__METHOD__ . ' : ' . __LINE__ . ' invalid param, param = ' . json_encode($data));
+        return ERROR_INVALID_PARAM;
     }
 
-    // test
-//    echo 'type_param = ' . gettype($data['param']) . ', content = ' . json_encode($data['param']);
+    $param = isset($data['param']) ? $data['param'] : [];
+    if (!is_array($param)) {
+        Log::error(__METHOD__ . ' : ' . __LINE__ . ' invalid param, param is not array, param_type = ' . gettype($param));
+        return ERROR_INVALID_PARAM;
+    }
 
     $class = new $data['class_name']();
     $func_name = $data['func_name'];
-    $param = isset($data['param']) ? $data['param'] : [];
     return $class->$func_name($param); // 必须有return, 否则不会调用onFinish
 });
 
