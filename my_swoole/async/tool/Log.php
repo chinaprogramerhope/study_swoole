@@ -33,8 +33,6 @@ class Log {
     }
 
     public static function write_file($level, $content) {
-        exec('sudo su root'); // todo 这样是否合适
-
         $log_dir = '/var/log/swoole/';
         if (!file_exists($log_dir)) {
             mkdir($log_dir);
@@ -48,7 +46,5 @@ class Log {
         $content = $time_now . ' : ' . $content . "\n";
         fwrite($res, $content);
         fclose($res);
-
-        exec('sudo su hxl');
     }
 }

@@ -82,7 +82,7 @@ $http_server->on('task', function ($server, $task_id, $from_id, $data) use ($red
     }
 
     // test
-//    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
+    echo 'type = ' . gettype($data) . ', content = ' . json_encode($data);
 
     if (!isset($data['class_name']) || !isset($data['func_name'])) {
         // todo error
