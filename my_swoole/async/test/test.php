@@ -18,7 +18,7 @@ require_once '../spl_autoload_register.php';
 //$params = [
 //    'class_name' => 'svcMail',
 //    'func_name' => 'send_mail',
-//    'param' => $param,
+//    'func_param' => $param,
 //];
 //Http::curl_post($url, $params);
 
@@ -27,7 +27,7 @@ require_once '../spl_autoload_register.php';
 //$params = [
 //    'class_name' => 'svcMessage',
 //    'func_name' => 'send_message',
-//    'param' => [
+//    'func_param' => [
 //        'u_kkid' => 'xx',
 //        'phone_number' => '18301805881'
 //    ],
@@ -39,7 +39,7 @@ require_once '../spl_autoload_register.php';
 //$params = [
 //    'class_name' => 'svcPush',
 //    'func_name' => 'mp_tmp',
-//    'param' => [
+//    'func_param' => [
 //        'touser' => , // 接收者（用户）的 openid - 必填
 //        'template_id' => , // 所需下发的模板消息的id - 必填
 //        'from_id' => , // 表单提交场景下，为 submit 事件带上的 formId；支付场景下，为本次支付的 prepay_id - 必填
@@ -53,7 +53,7 @@ require_once '../spl_autoload_register.php';
 //$params = [
 //    'class_name' => 'svcTest',
 //    'func_name' => 'post',
-//    'param' => []
+//    'func_param' => []
 //];
 //$ret = Http::curl_post($url, $params, true);
 //echo 'type = ' . gettype($ret);
@@ -64,7 +64,7 @@ require_once '../spl_autoload_register.php';
 //$params = [
 //    'class_name' => 'svcTimer',
 //    'func_name' => 'timer_after',
-//    'param' => [
+//    'func_param' => [
 //        'timer_name' => 'test',
 //        'after_time_ms' => 2000,
 //    ]
@@ -77,7 +77,7 @@ $url = 'http://127.0.0.1:9401';
 $params = [
     'class_name' => 'svcTest',
     'func_name' => 'log',
-    'param' => [
+    'func_param' => [
     ]
 ];
 $ret = Http::curl_post($url, $params);
