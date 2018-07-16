@@ -82,3 +82,19 @@ $params = [
 ];
 $ret = Http::curl_post($url, $params);
 echo 'type = ' . gettype($ret) . ', ret = ' . json_encode($ret) . "\n";
+
+
+$data = [
+    'os' => 'wechat',
+    'user_token' => 'xx',
+    'kkid' => 'xxx',
+    'comment_list' => [
+        'id_order_detail' => 1,
+        'id_product' => 1,
+        'quality_score' => 1,
+        'service_score' => 1,
+        'logistics_score' => 1,
+        'content' => 'xx',
+        'picture' => ["https://img10.kkhcdn.com/qpg_commodity_home_pic/add8e896558911e7962300163e0060d2.jpg", "xx", "xx"],
+    ],
+];
